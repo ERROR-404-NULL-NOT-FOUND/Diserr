@@ -1,7 +1,12 @@
-import discord 
+import discord
+from discord.ext import commands
 import curses
 import os
-from discord.ext import commands
+import time
+
+import messageRenderer
+import channelOpenMessageFetch
+
 from curses import wrapper
 size=os.get_terminal_size()
 token=""
@@ -14,20 +19,23 @@ def get_token(stdscr):
         stdscr.addstr(tokenrequestimage.readline().strip('\n'))
         stdscr.move(j+1,0)
     stdscr.addstr('\n\n     ')
-    stdscr.addstr('                                ',curses.color_pair(1))
+    stdscr.addstr('                                                               ',curses.color_pair(1))
     stdscr.addstr('\n     ')
-    stdscr.addstr('                                ',curses.color_pair(1))
+    stdscr.addstr('                                                               ',curses.color_pair(1))
     stdscr.addstr('\n     ')
-    stdscr.addstr('                                ',curses.color_pair(1))
-    stdscr.addstr(23, 7, "                            ", curses.color_pair(2))
+    stdscr.addstr('                                                               ',curses.color_pair(1))
+    stdscr.addstr(23, 7, "                                                           ", curses.color_pair(2))
     stdscr.move(23, 7)
     curses.echo()
     stdscr.refresh()
-    token=stdscr.getstr()
-
+    return stdscr.getstr()
 def main(stdscr):
+    token=str(get_token(stdscr))[2:]
+    token=token[:len(token)-1]
     win=curses.newwin(int((int(size.lines)/3)*2),int((int(size.columns)/3)*2),int((int(size.lines)/3)*2), int((int(size.columns)/3)*2))
     client=commands.Bot(command_prefix="")
-
-    client.run(token)
+    @client.event
+    async def on_ready():
+        messageRenderer.renderMessages(win,channelOpenMessageFetch.fetchChannelMessages(await client.fetch_channel(729649553648910401),client))
+    client.run(token,bot=False)
 wrapper(main)

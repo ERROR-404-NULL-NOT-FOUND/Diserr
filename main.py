@@ -32,7 +32,7 @@ def get_token(stdscr):
 def main(stdscr):
     token=str(get_token(stdscr))[2:]
     token=token[:len(token)-1]
-    win=curses.newwin(int((int(size.lines)/3)*2),int((int(size.columns)/3)*2),int((int(size.lines)/3)*2), int((int(size.columns)/3)*2))
+    win=curses.newwin(size.lines-4,int((size.columns/3)*2),0, int((int(size.columns)/5)))
     client=commands.Bot(command_prefix="")
     @client.event
     async def on_ready():

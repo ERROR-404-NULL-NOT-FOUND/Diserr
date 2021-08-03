@@ -6,4 +6,3 @@ def renderMessages(win,messages):
     #
     print(messages)
     win.refresh()
-

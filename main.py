@@ -41,7 +41,7 @@ def main(stdscr):
     token=str(get_token(stdscr))[2:]
     token=token[:len(token)-1]
     #making sure the window is the correct size
-    win=curses.newwin(int((int(size.lines)/3)*2),int((int(size.columns)/3)*2),int((int(size.lines)/3)*2), int((int(size.columns)/3)*2))
+    win=curses.newwin(size.lines-4,int((size.columns/3)*2),0, int((int(size.columns)/5)))
     #starting up the bot
     client=commands.Bot(command_prefix="")
     @client.event
